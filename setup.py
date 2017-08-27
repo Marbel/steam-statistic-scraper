@@ -2,12 +2,18 @@
 A steam statistic scraper to copy steam statistic in a local database.
 """
 from setuptools import find_packages, setup
+import re, io
 
-dependencies = ['click','peewee']
+dependencies = ['click','peewee','psycopg2']
+
+__version__ = re.search(
+    r'__version__\s*=\s*[\'"]([^\'"]*)[\'"]',  # It excludes inline comment too
+    io.open('steam_statistic_scraper/_version.py', encoding='utf_8_sig').read()
+    ).group(1)
 
 setup(
     name='steam-statistic-scraper',
-    version='0.0.1',
+    version=__version__,
     url='https://github.com/Marbel/steam-statistic-scraper',
     license='MIT',
     author='Jan-Andre Moebis',
@@ -21,7 +27,7 @@ setup(
     install_requires=dependencies,
     entry_points={
         'console_scripts': [
-            'steam-statistic-scraper = steam-statistic-scraper.cli:main',
+            'steam-statistic-scraper = steam_statistic_scraper.cli:cli',
         ],
     },
     classifiers=[
@@ -41,7 +47,6 @@ setup(
         'Operating System :: Unix',
         'Operating System :: Microsoft :: Windows',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 3',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ]
